@@ -44,7 +44,7 @@ class Liste(Screen):
         for studi in self.studs:
             stud = StudList()
             stud.ids.stud_list_surname.text = studi
-            self.add_widget(stud)
+            self.ids.stud_lists.add_widget(stud)
 
     def search(self):
         print("searching : " + self.ids.list_search.text)

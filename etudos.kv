@@ -50,9 +50,6 @@ WindowManager:
     GridLayout:
         cols: 7
         id: stud_list
-        size_hint: (None, None)
-        width: root.width/1.1
-        height: root.height/20
         spacing: root.width/20
         padding: [root.width/25, 0, 0, 0]
         canvas.before:
@@ -1296,6 +1293,82 @@ WindowManager:
                 cols: 1
                 id: stud_lists
                 size_hint: (1, None)
-                height: self.minimum_height
                 padding: [root.width/25, 0, root.width/25, root.height/50]
                 spacing: [root.width/20, root.height/100]
+            
+                GridLayout:
+                    cols: 7
+                    id: stud_list
+                    size_hint: (None, None)
+                    width: root.width/1.1
+                    height: root.height/20
+                    spacing: root.width/20
+                    padding: [root.width/25, 0, 0, 0]
+                    canvas.before:
+                        Color:
+                            rgba: 199/255, 199/255, 199/255, .58
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                        
+                    Label:
+                        id: stud_list_surname
+                        text: "Quentin"
+                        color: (5/255, 5/255, 5/255, 1)
+                        font_size: root.width/35
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/10
+
+                    Label:
+                        id: stud_list_name
+                        text: "DELCHIAPPO"
+                        color: (5/255, 5/255, 5/255, 1)
+                        font_size: root.width/35
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/6
+                    
+                    Label:
+                        id: stud_list_title_age
+                        text: "21"
+                        color: (5/255, 5/255, 5/255, 1)
+                        font_size: root.width/35
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/20
+
+                    Label:
+                        id: stud_list_title_year
+                        text: "2A"
+                        color: (5/255, 5/255, 5/255, 1)
+                        font_size: root.width/35
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/50
+                    
+                    Label:
+                        id: stud_list_title_subject
+                        text: "Physique"
+                        color: (5/255, 5/255, 5/255, 1)
+                        font_size: root.width/35
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/7
+                    
+                    Label:
+                        id: stud_list_title_moy
+                        text: "17.3"
+                        color: (5/255, 5/255, 5/255, 1)
+                        font_size: root.width/35
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/50
+                    
+                    Image:
+                        id: stud_list_title_picture
+                        source: "assets/snap.jpg"
+                        size_hint: (None, None)
+                        height: self.parent.height
+                        width: self.parent.width/9
+                        allow_stretch: True
