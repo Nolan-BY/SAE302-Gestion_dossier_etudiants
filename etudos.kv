@@ -1,0 +1,831 @@
+#:kivy 2.1
+
+#Création de toutes les fenêtres qui seront utilisées
+WindowManager:
+    Login:
+    NavigProf:
+    Liste:
+    Trombi:
+    Add:
+    Delete:
+
+#Fenêtre de login, avec la connexion du prof    
+<Login>:
+    name: "Login"
+
+    BoxLayout:
+        cols: 6
+        orientation: "vertical"
+        spacing: root.height/30
+
+        Label:
+            text: "BIENVENUE SUR LE SITE DE :"
+            background_color: (26, 82, 118, 1)
+            font_size: root.width/24
+            pos_hint: {'center_x':.5, 'center_y':1}
+            background_color: 39/255, 189/255, 245/255, .42
+            color: (5/255, 5/255, 5/255, 1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+
+        Image:
+            source: "assets/rt.png"
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+
+            Label:
+                text: "Identifiez vous"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.6, None)
+                height: root.height/18
+                pos_hint: {'center_x':.5, 'center_y':.95}
+                background_color: 39/255, 189/255, 245/255, .42
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [20]
+        
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            Label:
+                text: "Identifiant"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.3}
+
+            TextInput:
+                id: connect_login
+                text: ""
+                multiline: False
+                size_hint: (.7, None)
+                height: root.height/18
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':.4, 'top' : .05}
+                halign: 'center'
+                valign: 'middle'
+        
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+
+            Label:
+                text: "Mot de passe"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.45}
+
+            TextInput:
+                id: connect_mdp
+                text: ""
+                multiline: False
+                password: True
+                password_mask: "*"
+                size_hint: (.7, None)
+                height: root.height/18
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':.45, 'top' : .05}
+                halign: 'center'
+                valign: 'center'
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            padding: [0, 0, 0, root.height/25]
+            
+            Button:
+                text: "Connexion !"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.35, None)
+                height: root.height/18
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                on_release: app.root.current = "NavigProf"
+
+
+#Fenêtre de navigation, permet de choisir quels options choisir   
+<NavigProf>:
+
+    name: "NavigProf"
+
+    BoxLayout:
+        cols: 6
+        orientation: "vertical"
+        spacing: root.height/20
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/15
+            canvas.before:
+                Color:
+                    rgba: 39/255, 189/255, 245/255, .42
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+
+            BoxLayout:
+                orientation:"horizontal"
+                rows: 1
+                padding: [root.width/35, 0, 0, 0]
+
+                Button:
+                    text: "Logout"
+                    color: (5/255, 5/255, 5/255, 1)
+                    size_hint: (None, None)
+                    height: root.height/20
+                    width: root.width/5
+                    pos_hint: {'center_x':.0, 'center_y':.5}
+                    font_size: root.width/24
+                    background_color: 39/255, 189/255, 245/255, .42
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                    on_release: app.root.current = "Login"
+
+                Label:
+                    text: "Vers où naviguer ?"
+                    color: (5/255, 5/255, 5/255, 1)
+                    size_hint: (None, None)
+                    height: root.height/20
+                    width: root.width/1.7
+                    font_size: root.width/24
+                    pos_hint: {'center_x':.0, 'center_y':.5}
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/7
+
+            Image:
+                source: "assets/rt.png"
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            spacing: root.height/20
+            padding: [0, 0, 0, root.height/10]
+
+            Button:
+                text: "Liste des étudiants"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.55, None)
+                height: root.height/10
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos 
+                on_release: app.root.current = "Liste"
+            
+            Button:
+                text: "Trombinoscope"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.55, None)
+                height: root.height/10
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos 
+                on_release: app.root.current = "Trombi"
+            
+            Button:
+                text: "Ajouter un étudiant"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.55, None)
+                height: root.height/10
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos 
+                on_release: app.root.current = "Add"
+
+
+#Fenêtre qui permet de gérer la liste des photos des étudiants
+<Trombi>:
+    name: "Trombi"
+
+    BoxLayout:
+        cols: 6
+        orientation: "vertical"
+        spacing: root.height/20
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/15
+            canvas.before:
+                Color:
+                    rgba: 39/255, 189/255, 245/255, .42
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+
+            BoxLayout:
+                orientation:"horizontal"
+                rows: 1
+                padding: [root.width/35, 0, 0, 0]
+
+                Button:
+                    text: "Retour"
+                    color: (5/255, 5/255, 5/255, 1)
+                    size_hint: (None, None)
+                    height: root.height/20
+                    width: root.width/5
+                    pos_hint: {'center_x':.0, 'center_y':.5}
+                    font_size: root.width/24
+                    background_color: 39/255, 189/255, 245/255, .42
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                    on_release: app.root.current = "Login"
+
+                Label:
+                    text: "Trombinoscope"
+                    color: (5/255, 5/255, 5/255, 1)
+                    size_hint: (None, None)
+                    height: root.height/20
+                    width: root.width/1.7
+                    font_size: root.width/24
+                    pos_hint: {'center_x':.0, 'center_y':.5}
+
+        StackLayout:
+            orientation: "lr-tb"
+            cols: 3
+            padding: [root.width/7, root.height/7, root.width/7, root.height/7]
+            spacing: [root.width/3.5, root.height/4]
+
+            Label:
+                id: trombi_stud
+                text: "Michel Blanc"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/35
+                size_hint: (None, None)
+                width: root.width/30
+                height: root.height/25
+
+                Label:
+                    id: trombi_stud_year
+                    text: "1A"
+                    color: (5/255, 5/255, 5/255, 1)
+                    font_size: self.parent.font_size
+                    pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
+                    size_hint: (None, None)
+                    height: root.height/80
+                    width: root.width/6
+
+                Image:
+                    id: trombi_stud_pic
+                    source: "assets/profile.png"
+                    pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
+                    size_hint: (None, None)
+                    height: root.height/80*10
+                    width: root.width/6
+                    allow_stretch: True
+            
+            Label:
+                id: trombi_stud
+                text: "Quentin DELCHIAPPO"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/35
+                size_hint: (None, None)
+                width: root.width/30
+                height: root.height/25
+
+                Label:
+                    id: trombi_stud_year
+                    text: "2A"
+                    color: (5/255, 5/255, 5/255, 1)
+                    font_size: self.parent.font_size
+                    pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
+                    size_hint: (None, None)
+                    height: root.height/80
+                    width: root.width/6
+
+                Image:
+                    id: trombi_stud_pic
+                    source: "assets/snap.jpg"
+                    pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
+                    size_hint: (None, None)
+                    height: root.height/80*10
+                    width: root.width/6
+                    allow_stretch: True
+            
+            Label:
+                id: trombi_stud
+                text: "Gilbert Montagné"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/35
+                size_hint: (None, None)
+                width: root.width/30
+                height: root.height/25
+
+                Label:
+                    id: trombi_stud_year
+                    text: "2A"
+                    color: (5/255, 5/255, 5/255, 1)
+                    font_size: self.parent.font_size
+                    pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
+                    size_hint: (None, None)
+                    height: root.height/80
+                    width: root.width/6
+
+                Image:
+                    id: trombi_stud_pic
+                    source: "assets/profile.png"
+                    pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
+                    size_hint: (None, None)
+                    height: root.height/80*10
+                    width: root.width/6
+                    allow_stretch: True
+
+            Label:
+                id: trombi_stud
+                text: "Jean Pierre"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/35
+                size_hint: (None, None)
+                width: root.width/30
+                height: root.height/25
+
+                Label:
+                    id: trombi_stud_year
+                    text: "1A"
+                    color: (5/255, 5/255, 5/255, 1)
+                    font_size: self.parent.font_size
+                    pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
+                    size_hint: (None, None)
+                    height: root.height/80
+                    width: root.width/6
+
+                Image:
+                    id: trombi_stud_pic
+                    source: "assets/profile.png"
+                    pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
+                    size_hint: (None, None)
+                    height: root.height/80*10
+                    width: root.width/6
+                    allow_stretch: True
+
+            Label:
+                id: trombi_stud
+                text: "Jean Pierre"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/35
+                size_hint: (None, None)
+                width: root.width/30
+                height: root.height/25
+
+                Label:
+                    id: trombi_stud_year
+                    text: "1A"
+                    color: (5/255, 5/255, 5/255, 1)
+                    font_size: self.parent.font_size
+                    pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
+                    size_hint: (None, None)
+                    height: root.height/80
+                    width: root.width/6
+
+                Image:
+                    id: trombi_stud_pic
+                    source: "assets/profile.png"
+                    pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
+                    size_hint: (None, None)
+                    height: root.height/80*10
+                    width: root.width/6
+                    allow_stretch: True
+
+
+#Fenêtre pour l'ajout d'un étudiant dans la bdd
+<Add>:
+
+    name: "Add"
+
+    BoxLayout:
+        cols: 6
+        orientation: "vertical"
+        spacing: root.height/100
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/15
+            canvas.before:
+                Color:
+                    rgba: 39/255, 189/255, 245/255, .42
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+
+            BoxLayout:
+                orientation:"horizontal"
+                rows: 1
+                padding: [root.width/35, 0, 0, 0]
+
+                Button:
+                    text: "Retour"
+                    color: (5/255, 5/255, 5/255, 1)
+                    size_hint: (None, None)
+                    height: root.height/20
+                    width: root.width/5
+                    pos_hint: {'center_x':.0, 'center_y':.5}
+                    font_size: root.width/24
+                    background_color: 39/255, 189/255, 245/255, .42
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                    on_release: app.root.current = "NavigProf"
+
+                Label:
+                    text: "Quel étudiant ajouter ? "
+                    color: (5/255, 5/255, 5/255, 1)
+                    size_hint: (None, None)
+                    height: root.height/20
+                    width: root.width/1.7
+                    font_size: root.width/24
+                    pos_hint: {'center_x':.0, 'center_y':.5}
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/8
+
+            Label:
+                text: "Prénom de l'étudiant"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.45}
+
+            TextInput:
+                id: prenom_etu
+                text: ""
+                multiline: False
+                size_hint: (.7, None)
+                height: root.height/18
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':.45}
+                halign: 'center'
+                valign: 'center'
+        
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/8
+
+            Label:
+                text: "Nom de l'étudiant"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.3}
+
+            TextInput:
+                id: nom_etu
+                text: ""
+                multiline: False
+                size_hint: (.7, None)
+                height: root.height/18
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':.4}
+                halign: 'center'
+                valign: 'middle'
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/8
+
+            Label:
+                text: "Matière"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.3}
+
+            Spinner:
+                id: menu_deroule_annee
+                text: "Matière ?"
+                font_size: root.width/24
+                values: ["Réseau", "Programmation", "DevWeb", "Maths", "Physique"]
+                size_hint: (.7, None)
+                height: root.height/18
+                pos_hint: {'center_x': 0.5, 'center_y':1}
+                border: 1,1,1,1
+                background_color: 58/255, 140/255, 153/255, .8
+                background_normal: ''
+                background_down: ''
+  
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/8
+
+            Label:
+                text: "Moyenne correspondante"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.45}
+
+            TextInput:
+                id: moyenne
+                text: ""
+                multiline: False
+                size_hint: (.7, None)
+                height: root.height/18
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':.45}
+                halign: 'center'
+                valign: 'center'
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/8
+
+            Label:
+                text: "Année d'enseignement"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.3}
+
+            Spinner:
+                id: menu_deroule_annee
+                text: "Année ?"
+                font_size: root.width/24
+                values: ["1A", "2A"]
+                size_hint: (.7, None)
+                height: root.height/18
+                pos_hint: {'center_x': 0.5, 'center_y':1}
+                border: 1,1,1,1
+                background_color: 58/255, 140/255, 153/255, .8
+                background_normal: ''
+                background_down: ''
+        
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            size_hint: (1, None)
+            height: root.height/8
+
+            Label:
+                text: "Photo de l'étudiant"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                size_hint: (.5, .3)
+                pos_hint: {'center_x':.5, 'center_y':.45}
+
+            TextInput:
+                id: photo
+                disabled: True
+                text: "Glissez-déposez la photo ici"
+                multiline: False
+                size_hint: (.7, None)
+                height: root.height/18
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':.45}
+                halign: 'center'
+                valign: 'center'
+
+        BoxLayout:
+            cols: 1
+            orientation: "vertical"
+            padding: [0, 0, 0, root.height/30]
+            
+            Button:
+                text: "Soumettre"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.35, None)
+                height: root.height/18
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos 
+                #on_release: app.root.current = "NavigProf"
+
+
+#Fenêtre qui permet de supprimer un étudiant
+<Delete>:
+
+    name: "Delete"
+
+    Button:
+        text: "Retour"
+        color: (5/255, 5/255, 5/255, 1)
+        size_hint: (.08, .08)
+        pos_hint: {'center_x':0.958, 'center_y':0.037}
+        font_size: root.width/13
+        background_color: 39/255, 189/255, 245/255, .42
+
+        canvas.before:
+            Color:
+                rgba: self.background_color
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos 
+        on_release: app.root.current = "NavigProf"
+
+    BoxLayout:
+        cols: 6
+        orientation: "vertical"
+        spacing: root.height/30
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1 
+
+            Label:
+                text: "Quel option désirez-vous ? "
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                pos_hint: {'center_x':.5, 'center_y':1}
+                background_color: 39/255, 189/255, 245/255, .42
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+
+        Image:
+            source: "assets/rt.png"
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            
+            Button:
+                text: "Supprimer un étudiant"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.55, .15)
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos 
+                on_release: app.root.current = "SupprEtu"
+        
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+            
+            Button:
+                text: "Supprimer une moyenne"
+                color: (5/255, 5/255, 5/255, 1)
+                font_size: root.width/24
+                background_color: 39/255, 189/255, 245/255, .42
+                size_hint: (.55, .15)
+                pos_hint: {'center_x':.5, 'center_y':.15}
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos 
+                on_release: app.root.current = "SupprMoy"
+
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+        BoxLayout:
+            orientation: "vertical"
+            cols: 1
+    
+
+#Fenêtre qui permet d'afficher la liste des étudaints
+<Liste>:
+
+    name: "Liste"
+
+    Button:
+        text: "Retour"
+        color: (5/255, 5/255, 5/255, 1)
+        size_hint: (.08, .08)
+        pos_hint: {'center_x':0.958, 'center_y':0.037}
+        font_size: root.width/13
+        background_color: 39/255, 189/255, 245/255, .42
+
+        canvas.before:
+            Color:
+                rgba: self.background_color
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos 
+        on_release: app.root.current = "NavigProf"
+
+    BoxLayout:
+        orientation: "vertical"
+        cols: 1 
+
+        Label:
+            text: "BIENVENUE SUR LE SITE DE : "
+            background_color: (26, 82, 118, 1)
+            font_size: root.width/24
+            pos_hint: {'center_x':.5, 'center_y':1}
+            background_color: 39/255, 189/255, 245/255, .42
+            color: (5/255, 5/255, 5/255, 1)
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        cols: 1 
+        
+        Label:
+            background_color: (26, 82, 118, 1)
+            font_size: root.width/24
+            pos_hint: {'center_x':1, 'center_y':.1}
+            background_color: 240/255, 120/255, 12/255, .42
+            size_hint: 1, .1
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+    
