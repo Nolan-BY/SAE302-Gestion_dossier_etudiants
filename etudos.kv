@@ -1,4 +1,4 @@
-#:kivy 2.1
+#:kivy 1.11
 
 #Création de toutes les fenêtres qui seront utilisées
 WindowManager:
@@ -43,11 +43,49 @@ WindowManager:
                 RoundedRectangle:
                     size: self.size
                     pos: self.pos
-            on_release: app.root.current = "NavigProf"
+            on_release: root.modify_moy()
 
+
+<TrombiStud>:
+    BoxLayout:
+        cols: 1
+        orientation: "vertical"
+        id: trombi_stud
+        spacing: root.width/20
+        padding: [root.width/25, 0, 0, 0]
+
+        Image:
+            id: trombi_stud_pic
+            source: "assets/profile.png"
+            size_hint: (None, None)
+            width: root.width/5
+            height: root.height/5
+            allow_stretch: True
+
+        Label:
+            id: trombi_stud_name
+            text: "Quentin DELCHIAPPO"
+            bold: True
+            color: (5/255, 5/255, 5/255, 1)
+            font_size: root.width/25
+            size_hint: (None, None)
+            width: root.width/5
+            height: root.height/40
+
+        Label:
+            id: trombi_stud_year
+            text: "2A"
+            color: (5/255, 5/255, 5/255, 1)
+            font_size: root.width/25
+            size_hint: (None, None)
+            height: root.height/40
+            width: root.width/5
+
+
+<ButtonGrid>:
 
 <StudList>:
-    GridLayout:
+    ButtonGrid:
         cols: 7
         id: stud_list
         spacing: root.width/20
@@ -58,6 +96,7 @@ WindowManager:
             Rectangle:
                 size: self.size
                 pos: self.pos
+        on_press: root.test()
             
         Label:
             id: stud_list_surname
@@ -78,7 +117,7 @@ WindowManager:
             width: self.parent.width/6
         
         Label:
-            id: stud_list_title_age
+            id: stud_list_age
             text: "21"
             color: (5/255, 5/255, 5/255, 1)
             font_size: root.width/35
@@ -87,7 +126,7 @@ WindowManager:
             width: self.parent.width/20
 
         Label:
-            id: stud_list_title_year
+            id: stud_list_year
             text: "2A"
             color: (5/255, 5/255, 5/255, 1)
             font_size: root.width/35
@@ -96,7 +135,7 @@ WindowManager:
             width: self.parent.width/50
         
         Label:
-            id: stud_list_title_subject
+            id: stud_list_subject
             text: "Physique"
             color: (5/255, 5/255, 5/255, 1)
             font_size: root.width/35
@@ -105,7 +144,7 @@ WindowManager:
             width: self.parent.width/7
         
         Label:
-            id: stud_list_title_moy
+            id: stud_list_moy
             text: "17.3"
             color: (5/255, 5/255, 5/255, 1)
             font_size: root.width/35
@@ -114,12 +153,77 @@ WindowManager:
             width: self.parent.width/50
         
         Image:
-            id: stud_list_title_picture
-            source: "assets/snap.jpg"
+            id: stud_list_picture
+            source: "assets/profile.png"
             size_hint: (None, None)
             height: self.parent.height
             width: self.parent.width/9
             allow_stretch: True
+
+
+<EtuMoy>:
+    GridLayout:
+        cols: 7
+        id: stud_view_moy
+        spacing: root.width/20
+        padding: [root.width/25, 0, 0, 0]
+        canvas.before:
+            Color:
+                rgba: 199/255, 199/255, 199/255, .58
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        
+            
+        Label:
+            id: stud_view_moy_subject
+            text: "Prog"
+            color: (5/255, 5/255, 5/255, 1)
+            font_size: root.width/35
+            size_hint: (None, None)
+            height: self.parent.height
+            width: self.parent.width/10
+
+        Label:
+            id: stud_view_moy_moy
+            text: "15.2"
+            color: (5/255, 5/255, 5/255, 1)
+            font_size: root.width/35
+            size_hint: (None, None)
+            height: self.parent.height
+            width: self.parent.width/4
+        
+        Label:
+            id: stud_view_moy_best_moy
+            text: "19.5"
+            color: (5/255, 5/255, 5/255, 1)
+            font_size: root.width/35
+            size_hint: (None, None)
+            height: self.parent.height
+            width: self.parent.width/4
+        
+        BoxLayout:
+            orientation: "vertical"
+            rows: 1
+            padding: [0, 0, 0, root.width/20]
+            size_hint: (1, None)
+            height: root.height/80
+
+            Button:
+                id: stud_view_moy_suppr
+                text: "Supprimer"
+                size_hint: (None, None)
+                height: root.height/2.5
+                width: root.width/6
+                font_size: root.width/35
+                background_color: 233/255, 12/255, 12/255, 0.8
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                on_release: root.moy_suppr()
 
 
 #Fenêtre de login, avec la connexion du prof    
@@ -167,19 +271,10 @@ WindowManager:
                         size: self.size
                         pos: self.pos
                         radius: [20]
-        
-        # BoxLayout:
-        #     orientation: "vertical"
-        #     cols: 1
-            # Label:
-            #     text: "Identifiant"
-            #     color: (5/255, 5/255, 5/255, 1)
-            #     font_size: root.width/24
-            #     size_hint: (.5, .3)
-            #     pos_hint: {'center_x':.5, 'center_y':.3}
 
         TextInput:
             id: connect_login
+            input_type: "text"
             hint_text: "Identifiant"
             multiline: False
             size_hint: (.7, None)
@@ -188,20 +283,11 @@ WindowManager:
             pos_hint: {'center_x':.5, 'center_y':.4, 'top' : .05}
             halign: 'center'
             valign: 'middle'
-        
-        # BoxLayout:
-        #     orientation: "vertical"
-        #     cols: 1
-
-            # Label:
-            #     text: "Mot de passe"
-            #     color: (5/255, 5/255, 5/255, 1)
-            #     font_size: root.width/24
-            #     size_hint: (.5, .3)
-            #     pos_hint: {'center_x':.5, 'center_y':.45}
+            on_cursor: root.reset_err_msg()
 
         TextInput:
             id: connect_mdp
+            input_type: "text"
             hint_text: "Mot de passe"
             multiline: False
             password: True
@@ -212,6 +298,16 @@ WindowManager:
             pos_hint: {'center_x':.5, 'center_y':.45, 'top' : .05}
             halign: 'center'
             valign: 'center'
+            on_cursor: root.reset_err_msg()
+        
+        Label:
+            id: login_error
+            text: ""
+            color: (244/255, 18/255, 18/255, .8)
+            font_size: root.width/24
+            size_hint: (.6, None)
+            height: root.height/18
+            pos_hint: {'center_x':.5, 'center_y':.95}
 
         BoxLayout:
             orientation: "vertical"
@@ -220,6 +316,7 @@ WindowManager:
             
             Button:
                 text: "Connexion !"
+                id: connect_button
                 color: (5/255, 5/255, 5/255, 1)
                 font_size: root.width/24
                 background_color: 39/255, 189/255, 245/255, .42
@@ -232,10 +329,10 @@ WindowManager:
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                on_release: app.root.current = "NavigProf"
+                on_release: root.connect()
 
 
-#Fenêtre de navigation, permet de choisir quels options choisir   
+#Fenêtre de navigation, permet de choisir quelles options choisir   
 <NavigProf>:
 
     name: "NavigProf"
@@ -368,7 +465,7 @@ WindowManager:
                 on_release: app.root.current = "StudentView"
 
 
-#Fenêtre qui permet de gérer la liste des photos des étudiants
+#Fenêtre qui permet de voir la liste des photos des étudiants
 <Trombi>:
     name: "Trombi"
 
@@ -431,10 +528,10 @@ WindowManager:
             padding: [root.width/35, 0, 0, 0]
 
             Spinner:
-                id: list_sort_by
+                id: trombi_sort_by
                 text: "Trier par"
                 font_size: root.width/24
-                values: ["1A", "2A", "Prénoms A-Z", "Prénoms Z-A", "Noms A-Z", "Noms Z-A"]
+                values: ["1A", "2A", "Noms A-Z", "Noms Z-A", "Matières A-Z", "Matières Z-A"]
                 size_hint: (None, None)
                 width: root.width/3
                 height: root.height/25
@@ -445,7 +542,8 @@ WindowManager:
                 background_down: ''
             
             TextInput:
-                id: list_search
+                id: trombi_search
+                input_type: "text"
                 hint_text: "Chercher"
                 color: (5/255, 5/255, 5/255, 1)
                 font_size: self.height/2
@@ -455,155 +553,17 @@ WindowManager:
                 pos_hint: {'center_x':.2, 'center_y':.5}
                 on_text: root.search()
 
-        BoxLayout:
-            orientation:"vertical"
-            cols: 1
-
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
             StackLayout:
                 orientation: "lr-tb"
-                cols: 3
-                padding: [root.width/7, root.height/7, root.width/7, root.height/7]
-                spacing: [root.width/3.5, root.height/5]
-
-                Label:
-                    id: trombi_stud
-                    text: "Michel Blanc"
-                    color: (5/255, 5/255, 5/255, 1)
-                    font_size: root.width/35
-                    size_hint: (None, None)
-                    width: root.width/30
-                    height: root.height/25
-
-                    Label:
-                        id: trombi_stud_year
-                        text: "1A"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: self.parent.font_size
-                        pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
-                        size_hint: (None, None)
-                        height: root.height/80
-                        width: root.width/6
-
-                    Image:
-                        id: trombi_stud_pic
-                        source: "assets/profile.png"
-                        pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
-                        size_hint: (None, None)
-                        height: root.height/80*10
-                        width: root.width/6
-                        allow_stretch: True
+                cols: 1
+                id: trombi_studs
+                size_hint: (1, None)
+                padding: [root.width/20, 0, 0, 0]
+                spacing: [root.width/20, root.height/20]
                 
-                Label:
-                    id: trombi_stud
-                    text: "Quentin DELCHIAPPO"
-                    color: (5/255, 5/255, 5/255, 1)
-                    font_size: root.width/35
-                    size_hint: (None, None)
-                    width: root.width/30
-                    height: root.height/25
-
-                    Label:
-                        id: trombi_stud_year
-                        text: "2A"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: self.parent.font_size
-                        pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
-                        size_hint: (None, None)
-                        height: root.height/80
-                        width: root.width/6
-
-                    Image:
-                        id: trombi_stud_pic
-                        source: "assets/snap.jpg"
-                        pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
-                        size_hint: (None, None)
-                        height: root.height/80*10
-                        width: root.width/6
-                        allow_stretch: True
-
-                Label:
-                    id: trombi_stud
-                    text: "Gilbert Montagné"
-                    color: (5/255, 5/255, 5/255, 1)
-                    font_size: root.width/35
-                    size_hint: (None, None)
-                    width: root.width/30
-                    height: root.height/25
-
-                    Label:
-                        id: trombi_stud_year
-                        text: "2A"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: self.parent.font_size
-                        pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
-                        size_hint: (None, None)
-                        height: root.height/80
-                        width: root.width/6
-
-                    Image:
-                        id: trombi_stud_pic
-                        source: "assets/profile.png"
-                        pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
-                        size_hint: (None, None)
-                        height: root.height/80*10
-                        width: root.width/6
-                        allow_stretch: True
-
-                Label:
-                    id: trombi_stud
-                    text: "Jean Pierre"
-                    color: (5/255, 5/255, 5/255, 1)
-                    font_size: root.width/35
-                    size_hint: (None, None)
-                    width: root.width/30
-                    height: root.height/25
-
-                    Label:
-                        id: trombi_stud_year
-                        text: "1A"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: self.parent.font_size
-                        pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
-                        size_hint: (None, None)
-                        height: root.height/80
-                        width: root.width/6
-
-                    Image:
-                        id: trombi_stud_pic
-                        source: "assets/profile.png"
-                        pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
-                        size_hint: (None, None)
-                        height: root.height/80*10
-                        width: root.width/6
-                        allow_stretch: True
-
-                Label:
-                    id: trombi_stud
-                    text: "Jean Pierre"
-                    color: (5/255, 5/255, 5/255, 1)
-                    font_size: root.width/35
-                    size_hint: (None, None)
-                    width: root.width/30
-                    height: root.height/25
-
-                    Label:
-                        id: trombi_stud_year
-                        text: "1A"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: self.parent.font_size
-                        pos: (self.parent.x - (root.width/15), self.parent.y - (root.height/40))
-                        size_hint: (None, None)
-                        height: root.height/80
-                        width: root.width/6
-
-                    Image:
-                        id: trombi_stud_pic
-                        source: "assets/profile.png"
-                        pos: (self.parent.x - (root.width/15), self.parent.y + (root.height/20))
-                        size_hint: (None, None)
-                        height: root.height/80*10
-                        width: root.width/6
-                        allow_stretch: True
 
 
 #Fenêtre pour l'ajout d'un étudiant dans la bdd
@@ -690,6 +650,7 @@ WindowManager:
 
             TextInput:
                 id: age_etu
+                input_filter: 'int'
                 hint_text: "Age"
                 multiline: False
                 size_hint: (.7, None)
@@ -713,7 +674,7 @@ WindowManager:
                 pos_hint: {'center_x':.5, 'center_y':.3}
 
             Spinner:
-                id: subject_choice
+                id: subject_choice_etu
                 text: "Matière ?"
                 font_size: root.width/24
                 values: ["Réseau", "Prog", "Web", "Maths", "Physique"]
@@ -726,7 +687,8 @@ WindowManager:
                 background_down: ''
 
         TextInput:
-            id: moyenne
+            id: moyenne_etu
+            input_filter: 'float'
             hint_text: "Moyenne correspondante"
             multiline: False
             size_hint: (.7, None)
@@ -750,7 +712,7 @@ WindowManager:
                 pos_hint: {'center_x':.5, 'center_y':.3}
 
             Spinner:
-                id: year_choice
+                id: year_choice_etu
                 text: "Année ?"
                 font_size: root.width/24
                 values: ["1A", "2A"]
@@ -776,7 +738,7 @@ WindowManager:
                 pos_hint: {'center_x':.5, 'center_y':.45}
 
             Button:
-                id: picture_add
+                id: picture_add_etu
                 text: "Cliquez ou glissez la photo ici"
                 multiline: False
                 size_hint: (.7, None)
@@ -786,6 +748,15 @@ WindowManager:
                 halign: 'center'
                 valign: 'center'
                 on_release: root.file_chooser()
+            
+        Label:
+            id: add_etu_error
+            text: ""
+            color: (244/255, 18/255, 18/255, .8)
+            font_size: root.width/24
+            size_hint: (.6, None)
+            height: root.height/18
+            pos_hint: {'center_x':.5, 'center_y':.95}
 
         BoxLayout:
             cols: 1
@@ -807,7 +778,7 @@ WindowManager:
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos 
-                #on_release: root.add_student()
+                on_release: root.add_student()
 
 
 #Fenêtre qui permet de voir et modifier un étudiant
@@ -910,7 +881,7 @@ WindowManager:
 
             GridLayout:
                 cols: 7
-                id: stud_view_titles
+                id: stud_view_moy_titles
                 size_hint: (None, None)
                 width: root.width/1.1
                 height: root.height/20
@@ -924,7 +895,7 @@ WindowManager:
                         pos: self.pos
 
                 Label:
-                    id: stud_view_title_subject
+                    id: stud_view_moy_title_subject
                     text: "Matière"
                     bold: True
                     color: (5/255, 5/255, 5/255, 1)
@@ -934,7 +905,7 @@ WindowManager:
                     width: self.parent.width/10
 
                 Label:
-                    id: stud_view_title_moy
+                    id: stud_view_moy_title_moy
                     text: "Moyenne étudiant"
                     bold: True
                     color: (5/255, 5/255, 5/255, 1)
@@ -944,7 +915,7 @@ WindowManager:
                     width: self.parent.width/4
                 
                 Label:
-                    id: stud_view_title_best_moy
+                    id: stud_view_moy_title_best_moy
                     text: "Moyenne Générale"
                     bold: True
                     color: (5/255, 5/255, 5/255, 1)
@@ -954,7 +925,7 @@ WindowManager:
                     width: self.parent.width/4
                 
                 Label:
-                    id: stud_view_title_action
+                    id: stud_view_moy_title_action
                     text: "Action"
                     bold: True
                     color: (5/255, 5/255, 5/255, 1)
@@ -964,146 +935,15 @@ WindowManager:
                     width: self.parent.width/6
 
         ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
             StackLayout:
                 orientation: "lr-tb"
                 cols: 1
                 id: stud_view_moys
                 size_hint: (1, None)
-                height: self.minimum_height
                 padding: [root.width/25, 0, root.width/25, root.height/50]
                 spacing: [root.width/20, root.height/100]
-
-                GridLayout:
-                    cols: 7
-                    id: stud_view_moy
-                    size_hint: (None, None)
-                    width: root.width/1.1
-                    height: root.height/20
-                    spacing: root.width/20
-                    padding: [root.width/25, 0, 0, 0]
-                    canvas.before:
-                        Color:
-                            rgba: 199/255, 199/255, 199/255, .58
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-                    
-                        
-                    Label:
-                        id: stud_view_moy_subject
-                        text: "Prog"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/10
-
-                    Label:
-                        id: stud_view_moy_moy
-                        text: "15.2"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/4
-                    
-                    Label:
-                        id: stud_view_moy_best_moy
-                        text: "19.5"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/4
-                    
-                    BoxLayout:
-                        orientation: "vertical"
-                        rows: 1
-                        padding: [0, 0, 0, root.width/90]
-                        size_hint: (1, None)
-                        height: root.height/30
-
-                        Button:
-                            id: stud_view_moy_modify
-                            text: "Modifier"
-                            size_hint: (None, None)
-                            height: self.parent.height
-                            width: root.width/6
-                            font_size: root.width/35
-                            background_color: 233/255, 12/255, 12/255, 0.8
-                            canvas.before:
-                                Color:
-                                    rgba: self.background_color
-                                RoundedRectangle:
-                                    size: self.size
-                                    pos: self.pos
-                            on_release: root.moy_modify()
-
-                GridLayout:
-                    cols: 7
-                    id: stud_view_moy
-                    size_hint: (None, None)
-                    width: root.width/1.1
-                    height: root.height/20
-                    spacing: root.width/20
-                    padding: [root.width/25, 0, 0, 0]
-                    canvas.before:
-                        Color:
-                            rgba: 199/255, 199/255, 199/255, .58
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-                        
-                    Label:
-                        id: stud_view_moy_subject
-                        text: "Web"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/10
-
-                    Label:
-                        id: stud_view_moy_moy
-                        text: "17.3"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/4
-                    
-                    Label:
-                        id: stud_view_moy_best_moy
-                        text: "18.6"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/4
-                    
-                    BoxLayout:
-                        orientation: "vertical"
-                        rows: 1
-                        padding: [0, 0, 0, root.width/90]
-                        size_hint: (1, None)
-                        height: root.height/30
-
-                        Button:
-                            id: stud_view_moy_modify
-                            text: "Modifier"
-                            size_hint: (None, None)
-                            height: self.parent.height
-                            width: root.width/6
-                            font_size: root.width/35
-                            background_color: 233/255, 12/255, 12/255, 0.8
-                            canvas.before:
-                                Color:
-                                    rgba: self.background_color
-                                RoundedRectangle:
-                                    size: self.size
-                                    pos: self.pos
-                            on_release: root.moy_modify()
-
 
 
 #Fenêtre qui permet d'afficher la liste des étudiants
@@ -1288,6 +1128,8 @@ WindowManager:
                     width: self.parent.width/9
 
         ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
             StackLayout:
                 orientation: "lr-tb"
                 cols: 1
@@ -1295,80 +1137,3 @@ WindowManager:
                 size_hint: (1, None)
                 padding: [root.width/25, 0, root.width/25, root.height/50]
                 spacing: [root.width/20, root.height/100]
-            
-                GridLayout:
-                    cols: 7
-                    id: stud_list
-                    size_hint: (None, None)
-                    width: root.width/1.1
-                    height: root.height/20
-                    spacing: root.width/20
-                    padding: [root.width/25, 0, 0, 0]
-                    canvas.before:
-                        Color:
-                            rgba: 199/255, 199/255, 199/255, .58
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-                        
-                    Label:
-                        id: stud_list_surname
-                        text: "Quentin"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/10
-
-                    Label:
-                        id: stud_list_name
-                        text: "DELCHIAPPO"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/6
-                    
-                    Label:
-                        id: stud_list_title_age
-                        text: "21"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/20
-
-                    Label:
-                        id: stud_list_title_year
-                        text: "2A"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/50
-                    
-                    Label:
-                        id: stud_list_title_subject
-                        text: "Physique"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/7
-                    
-                    Label:
-                        id: stud_list_title_moy
-                        text: "17.3"
-                        color: (5/255, 5/255, 5/255, 1)
-                        font_size: root.width/35
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/50
-                    
-                    Image:
-                        id: stud_list_title_picture
-                        source: "assets/snap.jpg"
-                        size_hint: (None, None)
-                        height: self.parent.height
-                        width: self.parent.width/9
-                        allow_stretch: True
