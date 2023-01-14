@@ -24,11 +24,20 @@ class Login(Screen):
     def connect(self):
         db = sql.connect(host="127.0.0.1", database='bdetu', user="etuadmin", password="etuadmin")
         cursor = db.cursor()
-        cursor.execute("SELECT identifiant, password FROM users LIMIT 1")
-        data = cursor.fetchone()
-        if self.ids.connect_login.text == data[0] and self.ids.connect_mdp.text == data[1]:
-            App.get_running_app().root.current = "NavigProf"
-        else:
+        cursor.execute("SELECT identifiant, password FROM users")
+        data = cursor.fetchall()
+        users = []
+        log = False
+        for user in data:
+            users_dict = {'ident': user[0], 'pass': user[1]}
+            users.append(users_dict)
+        
+        for user in users:
+            if self.ids.connect_login.text == user['ident'] and self.ids.connect_mdp.text == user['pass']:
+                log = True
+                App.get_running_app().root.current = "NavigProf"
+
+        if log == False:
             self.ids.login_error.text = "Identifiants invalides !"
     
     def reset_err_msg(self):
@@ -85,7 +94,7 @@ class Add(Screen):
     def add_student(self):
         etu_exist = False
         if self.ids.surname_etu.text == '' or self.ids.name_etu.text == '' or self.ids.age_etu.text == '' or self.ids.subject_choice_etu.text == 'Matière ?' or self.ids.moyenne_etu.text == '' or self.ids.year_choice_etu.text == "Année ?" or self.ids.picture_add_etu.text == 'Cliquez ou glissez la photo ici':
-            self.ids.add_etu_error.text = 'Il y a une ou des erreurs de saisie'
+            self.ids.add_etu_error.text = 'Un ou des champs sont vides'
         else:
             db = sql.connect(host="127.0.0.1", database='bdetu', user="etuadmin", password="etuadmin")
             cursor = db.cursor()
@@ -97,8 +106,35 @@ class Add(Screen):
                 values.append(values_dict)
             
             for etu in values:
-                if ((self.ids.surname_etu.text.lower() == etu['surname'].lower() and self.ids.name_etu.text.lower() == etu['name'].lower()) and ((self.ids.subject_choice_etu.text == etu['subject']) or (self.ids.age_etu.text != etu['age']) or (self.ids.year_choice_etu.text != etu['year']) or (hash(CoreImage(io.BytesIO(self.convert_pic(self.photo_path)), ext="png").texture) != hash(CoreImage(io.BytesIO(etu['photo']), ext="png").texture)))):
-                    self.ids.add_etu_error.text = "Cet étudiant existe déjà ! Essayez de rentrer une autre matière."
+                if (self.ids.surname_etu.text.lower() == etu['surname'].lower() and self.ids.name_etu.text.lower() == etu['name'].lower()):
+                    if (self.ids.age_etu.text != str(etu['age'])):
+                        self.ids.add_etu_error.text = "L'âge de l'étudiant n'est pas le même !"
+                        etu_exist = True
+                        self.reset("ERR")
+                        break
+                    elif (self.ids.subject_choice_etu.text == etu['subject']):
+                        self.ids.add_etu_error.text = "La matière est déjà présente pour cet étudiant !"
+                        etu_exist = True
+                        self.reset("ERR")
+                        break
+                    elif (int(self.ids.moyenne_etu.text) > 20 or int(self.ids.moyenne_etu.text) < 0):
+                        self.ids.add_etu_error.text = "La moyenne n'est pas valide !"
+                        etu_exist = True
+                        self.reset("ERR")
+                        break
+                    elif (self.ids.year_choice_etu.text != etu['year']):
+                        self.ids.add_etu_error.text = "L'année d'étude n'est pas la même !"
+                        etu_exist = True
+                        self.reset("ERR")
+                        break
+                    elif (hash(CoreImage(io.BytesIO(self.convert_pic(self.photo_path)), ext="png").texture) != hash(CoreImage(io.BytesIO(etu['photo']), ext="png").texture)):
+                        self.ids.add_etu_error.text = "La photo n'est pas la même !"
+                        etu_exist = True
+                        self.reset("ERR")
+                        break
+                
+                if (etu_exist == False and hash(CoreImage(io.BytesIO(self.convert_pic(self.photo_path)), ext="png").texture) == hash(CoreImage(io.BytesIO(etu['photo']), ext="png").texture)):
+                    self.ids.add_etu_error.text = "La photo est déjà utilisée !"
                     etu_exist = True
                     self.reset("ERR")
                     break
@@ -107,16 +143,26 @@ class Add(Screen):
                 to_insert = [self.ids.surname_etu.text, self.ids.name_etu.text, int(self.ids.age_etu.text), self.ids.year_choice_etu.text, self.ids.subject_choice_etu.text, float(self.ids.moyenne_etu.text), self.convert_pic(self.photo_path)]
                 cursor.execute("INSERT INTO etudiants (surname, name, age, year, subject, moy, photo) VALUES (%s, %s, %s, %s, %s, %s, %s)", to_insert)
                 self.reset("ALL")
-
-        db.commit()
-        db.close()
+            db.commit()
+            db.close()
 
 
 class Liste(Screen):
     def on_enter(self):
+        self.populate("all")
+
+    def search(self):
+        self.populate(self.ids.list_search.text)
+
+    def populate(self, search):
         db = sql.connect(host="127.0.0.1", database='bdetu', user="etuadmin", password="etuadmin")
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM etudiants")
+        if search == "all":
+            cursor.execute("SELECT * FROM etudiants")
+        elif len(search.split(' ')) == 1:
+            cursor.execute("SELECT * FROM etudiants WHERE surname LIKE '" + search + "%'")
+        elif len(search.split(' ')) == 2:
+            cursor.execute("SELECT * FROM etudiants WHERE surname LIKE '" + search.split(' ')[0] + "%' AND name LIKE '" + search.split(' ')[1] + "%'")
         data = cursor.fetchall()
         studs = []
         for etu in data:
@@ -135,9 +181,6 @@ class Liste(Screen):
             stud.ids.stud_list_moy.text = str(etu['moy'])
             stud.ids.stud_list_picture.texture = CoreImage(io.BytesIO(etu['photo']), ext="png").texture
             self.ids.stud_lists.add_widget(stud)
-
-    def search(self):
-        print("searching : " + self.ids.list_search.text)
 
 class Trombi(Screen):
     def on_enter(self):
