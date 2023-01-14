@@ -14,6 +14,10 @@ import io
 Window.size = (500,700)
 Window.clearcolor = (237/255, 234/255, 225/255, 1)
 
+config = {'host': '127.0.0.1',
+          'database': 'bdetu',
+          'user': 'etuadmin',
+          'password': 'etuadmin'}
 
 #Définition de toutes les fenêtres
 class Login(Screen):
@@ -22,7 +26,7 @@ class Login(Screen):
         self.ids.connect_mdp.text = ''
 
     def connect(self):
-        db = sql.connect(host="127.0.0.1", database='bdetu', user="etuadmin", password="etuadmin")
+        db = sql.connect(**config)
         cursor = db.cursor()
         cursor.execute("SELECT identifiant, password FROM users")
         data = cursor.fetchall()
@@ -96,7 +100,7 @@ class Add(Screen):
         if self.ids.surname_etu.text == '' or self.ids.name_etu.text == '' or self.ids.age_etu.text == '' or self.ids.subject_choice_etu.text == 'Matière ?' or self.ids.moyenne_etu.text == '' or self.ids.year_choice_etu.text == "Année ?" or self.ids.picture_add_etu.text == 'Cliquez ou glissez la photo ici':
             self.ids.add_etu_error.text = 'Un ou des champs sont vides'
         else:
-            db = sql.connect(host="127.0.0.1", database='bdetu', user="etuadmin", password="etuadmin")
+            db = sql.connect(**config)
             cursor = db.cursor()
             cursor.execute("SELECT * FROM etudiants")
             data = cursor.fetchall()
@@ -107,34 +111,17 @@ class Add(Screen):
             
             for etu in values:
                 if (self.ids.surname_etu.text.lower() == etu['surname'].lower() and self.ids.name_etu.text.lower() == etu['name'].lower()):
-                    if (self.ids.age_etu.text != str(etu['age'])):
-                        self.ids.add_etu_error.text = "L'âge de l'étudiant n'est pas le même !"
-                        etu_exist = True
-                        self.reset("ERR")
-                        break
-                    elif (self.ids.subject_choice_etu.text == etu['subject']):
-                        self.ids.add_etu_error.text = "La matière est déjà présente pour cet étudiant !"
-                        etu_exist = True
-                        self.reset("ERR")
-                        break
-                    elif (int(self.ids.moyenne_etu.text) > 20 or int(self.ids.moyenne_etu.text) < 0):
-                        self.ids.add_etu_error.text = "La moyenne n'est pas valide !"
-                        etu_exist = True
-                        self.reset("ERR")
-                        break
-                    elif (self.ids.year_choice_etu.text != etu['year']):
-                        self.ids.add_etu_error.text = "L'année d'étude n'est pas la même !"
-                        etu_exist = True
-                        self.reset("ERR")
-                        break
-                    elif (hash(CoreImage(io.BytesIO(self.convert_pic(self.photo_path)), ext="png").texture) != hash(CoreImage(io.BytesIO(etu['photo']), ext="png").texture)):
-                        self.ids.add_etu_error.text = "La photo n'est pas la même !"
-                        etu_exist = True
-                        self.reset("ERR")
-                        break
-                
-                if (etu_exist == False and hash(CoreImage(io.BytesIO(self.convert_pic(self.photo_path)), ext="png").texture) == hash(CoreImage(io.BytesIO(etu['photo']), ext="png").texture)):
-                    self.ids.add_etu_error.text = "La photo est déjà utilisée !"
+                    self.ids.add_etu_error.text = "Cet étudiant existe déjà !"
+                    etu_exist = True
+                    self.reset("ERR")
+                    break
+                elif (int(self.ids.moyenne_etu.text) > 20 or int(self.ids.moyenne_etu.text) < 0):
+                    self.ids.add_etu_error.text = "La moyenne n'est pas valide !"
+                    etu_exist = True
+                    self.reset("ERR")
+                    break
+                elif (int(self.ids.age_etu.text) < 17 or int(self.ids.age_etu.text) > 100):
+                    self.ids.add_etu_error.text = "L'âge' n'est pas valide !"
                     etu_exist = True
                     self.reset("ERR")
                     break
@@ -155,7 +142,7 @@ class Liste(Screen):
         self.populate(self.ids.list_search.text)
 
     def populate(self, search):
-        db = sql.connect(host="127.0.0.1", database='bdetu', user="etuadmin", password="etuadmin")
+        db = sql.connect(**config)
         cursor = db.cursor()
         if search == "all":
             cursor.execute("SELECT * FROM etudiants")
