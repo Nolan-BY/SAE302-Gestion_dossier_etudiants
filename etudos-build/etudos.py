@@ -1,4 +1,6 @@
 from kivy.app import App
+from kivy.lang import Builder
+from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.image import CoreImage
 from kivy.uix.boxlayout import BoxLayout
@@ -11,7 +13,7 @@ import io, random
 Window.size = (500,700)
 Window.clearcolor = (237/255, 234/255, 225/255, 1)
 
-config = {'host': '127.0.0.1',
+config = {'host': '192.168.1.20',
           'database': 'bdetu',
           'user': 'etuadmin',
           'password': 'etuadmin'}
