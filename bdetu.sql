@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `etudiants` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table bdetu.etudiants : ~2 rows (environ)
+-- Listage des données de la table bdetu.etudiants : ~0 rows (environ)
 /*!40000 ALTER TABLE `etudiants` DISABLE KEYS */;
 /*!40000 ALTER TABLE `etudiants` ENABLE KEYS */;
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `matières` (
   CONSTRAINT `stud_id` FOREIGN KEY (`id`) REFERENCES `etudiants` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table bdetu.matières : ~3 rows (environ)
+-- Listage des données de la table bdetu.matières : ~0 rows (environ)
 /*!40000 ALTER TABLE `matières` DISABLE KEYS */;
 /*!40000 ALTER TABLE `matières` ENABLE KEYS */;
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table bdetu.users : ~1 rows (environ)
+-- Listage des données de la table bdetu.users : ~0 rows (environ)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`identifiant`, `password`) VALUES
 	('admin', 'admin');
