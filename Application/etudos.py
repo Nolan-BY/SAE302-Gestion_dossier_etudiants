@@ -123,7 +123,7 @@ class Add(Screen):
                     break
                 
             if etu_exist == False:
-                ident = self.ids.surname_etu.text[0].upper() + self.ids.name_etu.text[0].upper() + str(random.randint(2000, 9000))
+                ident = self.ids.surname_etu.text[0] + self.ids.name_etu.text[0] + str(random.randint(2000, 9000))
                 to_insert_stud = [ident, self.ids.surname_etu.text, self.ids.name_etu.text, int(self.ids.age_etu.text), self.ids.year_choice_etu.text, round(float(self.ids.moyenne_etu.text), 2), self.convert_pic(self.photo_path)]
                 to_insert_subject = [ident, self.ids.subject_choice_etu.text, float(self.ids.moyenne_etu.text)]
                 cursor.execute("INSERT INTO etudiants (id, surname, name, age, year, global_moy, photo) VALUES (%s, %s, %s, %s, %s, %s, %s)", to_insert_stud)
