@@ -22,7 +22,6 @@ class Login(Screen):
         self.ids.connect_mdp.text = ''
 
     def connect(self):
-        App.get_running_app().root.current = "NavigProf"
         db = sql.connect(**config)
         cursor = db.cursor()
         cursor.execute("SELECT identifiant, password FROM users")
@@ -294,14 +293,16 @@ class EtuMoy(BoxLayout):
         cursor = db.cursor()
         cursor.execute("DELETE FROM matières WHERE id = (SELECT id FROM etudiants WHERE surname = '" + choosen_surname + "' AND name = '" + choosen_name + "') AND subject = '" + self.ids.stud_view_moy_subject.text + "'")
         cursor.execute("UPDATE etudiants SET global_moy = (SELECT AVG (moy) FROM matières WHERE id = (SELECT id FROM etudiants WHERE surname = '" + choosen_surname + "' AND name = '" + choosen_name + "')) WHERE id = (SELECT id FROM etudiants WHERE surname = '" + choosen_surname + "' AND name = '" + choosen_name + "')")
-        if len(self.parent.children) == 1:
+        if len(self.parent.children) <= 1:
             cursor.execute("DELETE FROM etudiants WHERE surname = '" + choosen_surname + "' AND name = '" + choosen_name + "'")
+            db.commit()
+            db.close()
             App.get_running_app().root.current = "Liste"
         else:
+            db.commit()
+            db.close()
             App.get_running_app().root.current = "Liste"
             App.get_running_app().root.current = "StudentView"
-        db.commit()
-        db.close()
 
 class TrombiStud(BoxLayout):
     pass
