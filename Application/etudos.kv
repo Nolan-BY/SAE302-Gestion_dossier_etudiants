@@ -5,46 +5,8 @@ WindowManager:
     Login:
     NavigProf:
     Liste:
-    Trombi:
     Add:
     StudentView:
-
-
-<TrombiStud>:
-    BoxLayout:
-        cols: 1
-        orientation: "vertical"
-        id: trombi_stud
-        size_hint: (None, None)
-        spacing: root.width/20
-        padding: [root.width/25, 0, 0, 0]
-
-        Image:
-            id: trombi_stud_pic
-            source: "assets/profile.png"
-            size_hint: (None, None)
-            width: self.parent.width/5
-            height: self.parent.height/5
-            allow_stretch: True
-
-        Label:
-            id: trombi_stud_name
-            text: "Quentin DELCHIAPPO"
-            bold: True
-            color: (5/255, 5/255, 5/255, 1)
-            font_size: root.width/25
-            size_hint: (None, None)
-            width: self.parent.width/5
-            height: self.parent.height/40
-
-        Label:
-            id: trombi_stud_year
-            text: "2A"
-            color: (5/255, 5/255, 5/255, 1)
-            font_size: root.width/25
-            size_hint: (None, None)
-            height: self.parent.height/40
-            width: self.parent.width/5
 
 
 <ButtonGrid>:
@@ -373,22 +335,6 @@ WindowManager:
                         pos: self.pos 
                 on_release: app.root.current = "Liste"
             
-            # Button:
-            #     text: "Trombinoscope"
-            #     color: (5/255, 5/255, 5/255, 1)
-            #     font_size: root.width/24
-            #     background_color: 39/255, 189/255, 245/255, .42
-            #     size_hint: (.55, None)
-            #     height: root.height/10
-            #     pos_hint: {'center_x':.5, 'center_y':.15}
-            #     canvas.before:
-            #         Color:
-            #             rgba: self.background_color
-            #         RoundedRectangle:
-            #             size: self.size
-            #             pos: self.pos 
-            #     on_release: app.root.current = "Trombi"
-            
             Button:
                 text: "Ajouter un étudiant"
                 color: (5/255, 5/255, 5/255, 1)
@@ -404,106 +350,6 @@ WindowManager:
                         size: self.size
                         pos: self.pos 
                 on_release: app.root.current = "Add"
-
-
-#Fenêtre qui permet de voir la liste des photos des étudiants
-<Trombi>:
-    name: "Trombi"
-
-    BoxLayout:
-        cols: 6
-        orientation: "vertical"
-        spacing: root.height/30
-
-        BoxLayout:
-            orientation: "vertical"
-            cols: 1
-            size_hint: (1, None)
-            height: root.height/15
-            canvas.before:
-                Color:
-                    rgba: 39/255, 189/255, 245/255, .42
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
-
-            BoxLayout:
-                orientation:"horizontal"
-                rows: 1
-                padding: [root.width/35, 0, 0, 0]
-                size_hint: (1, None)
-                height: root.height/15
-
-                Button:
-                    text: "Retour"
-                    color: (5/255, 5/255, 5/255, 1)
-                    size_hint: (None, None)
-                    height: root.height/20
-                    width: root.width/5
-                    pos_hint: {'center_x':.0, 'center_y':.5}
-                    font_size: root.width/24
-                    background_color: 39/255, 189/255, 245/255, .42
-                    canvas.before:
-                        Color:
-                            rgba: self.background_color
-                        RoundedRectangle:
-                            size: self.size
-                            pos: self.pos
-                    on_release: app.root.current = "NavigProf"
-
-                Label:
-                    text: "Trombinoscope"
-                    color: (5/255, 5/255, 5/255, 1)
-                    size_hint: (None, None)
-                    height: root.height/20
-                    width: root.width/1.7
-                    font_size: root.width/24
-                    pos_hint: {'center_x':.0, 'center_y':.5}
-            
-        BoxLayout:
-            orientation:"horizontal"
-            cols: 2
-            spacing: root.width/20
-            size_hint: (1, None)
-            height: root.height/40
-            padding: [root.width/35, 0, 0, 0]
-
-            Spinner:
-                id: trombi_sort_by
-                text: "Trier par"
-                font_size: root.width/24
-                values: ["1A", "2A", "Noms A-Z", "Noms Z-A", "Matières A-Z", "Matières Z-A"]
-                size_hint: (None, None)
-                width: root.width/3
-                height: root.height/25
-                pos_hint: {'center_x':.2, 'center_y':.5}
-                border: 1,1,1,1
-                background_color: 58/255, 140/255, 153/255, .8
-                background_normal: ''
-                background_down: ''
-            
-            TextInput:
-                id: trombi_search
-                input_type: "text"
-                hint_text: "Chercher"
-                color: (5/255, 5/255, 5/255, 1)
-                font_size: self.height/2
-                size_hint: (None, None)
-                width: root.width/3
-                height: root.height/25
-                pos_hint: {'center_x':.2, 'center_y':.5}
-                on_text: root.search()
-
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-            StackLayout:
-                orientation: "lr-tb"
-                cols: 3
-                id: trombi_studs
-                size_hint: (1, None)
-                padding: [root.width/20, 0, 0, 0]
-                spacing: [root.width/20, root.height/20]
 
 
 #Fenêtre pour l'ajout d'un étudiant dans la bdd
