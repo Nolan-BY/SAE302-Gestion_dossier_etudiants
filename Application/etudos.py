@@ -1,3 +1,5 @@
+#!Authors: Nolan BEN YAHYA, Quentin DELCHIAPPO 
+
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.image import CoreImage
