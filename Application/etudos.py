@@ -1,3 +1,5 @@
+#!Authors: Nolan BEN YAHYA, Quentin DELCHIAPPO 
+
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.image import CoreImage
@@ -11,7 +13,7 @@ import io, random
 Window.size = (500,700)
 Window.clearcolor = (237/255, 234/255, 225/255, 1)
 
-config = {'host': '127.0.0.1',
+config = {'host': '192.168.122.242',
           'database': 'bdetu',
           'user': 'etuadmin',
           'password': 'etuadmin'}
@@ -54,7 +56,7 @@ class Add(Screen):
         self.photo_path = ''
 
     def drop_file(self, window, file_path, x, y):
-        self.ids.picture_add_etu.text = str(file_path).split("\\")[-1].strip("'").replace(" ", "_")
+        self.ids.picture_add_etu.text = str(file_path).split("/")[-1].strip("'").replace(" ", "_")
         self.photo_path = str(file_path).replace("\\", "/")
     
     def file_chooser(self):
@@ -62,7 +64,7 @@ class Add(Screen):
 
     def picture_selected(self, selection):
         if len(selection) >= 1:
-            self.ids.picture_add_etu.text = selection[0].split("\\")[-1].strip("'").replace(" ", "_")
+            self.ids.picture_add_etu.text = selection[0].split("/")[-1].strip("'").replace(" ", "_")
             self.photo_path = selection[0].replace("\\", "/")
     
     def convert_pic(self, file_path):
@@ -93,7 +95,7 @@ class Add(Screen):
         self.reset("ALL")
 
     def add_student(self):
-        etu_exist = False
+        etu_err = False
         if self.ids.surname_etu.text == '' or self.ids.name_etu.text == '' or self.ids.age_etu.text == '' or self.ids.subject_choice_etu.text == 'Matière ?' or self.ids.moyenne_etu.text == '' or self.ids.year_choice_etu.text == "Année ?" or self.ids.picture_add_etu.text == 'Cliquez ou glissez la photo ici':
             self.ids.add_etu_error.text = 'Un ou des champs sont vides'
         else:
@@ -109,22 +111,22 @@ class Add(Screen):
             for etu in values:
                 if (self.ids.surname_etu.text.lower() == etu['surname'].lower() and self.ids.name_etu.text.lower() == etu['name'].lower()):
                     self.ids.add_etu_error.text = "Cet étudiant existe déjà !"
-                    etu_exist = True
+                    etu_err = True
                     self.reset("ERR")
                     break
                 elif (round(float(self.ids.moyenne_etu.text), 2) > 20 or round(float(self.ids.moyenne_etu.text), 2) < 0):
                     self.ids.add_etu_error.text = "La moyenne n'est pas valide !"
-                    etu_exist = True
+                    etu_err = True
                     self.reset("ERR")
                     break
                 elif (int(self.ids.age_etu.text) < 17 or int(self.ids.age_etu.text) > 100):
                     self.ids.add_etu_error.text = "L'âge' n'est pas valide !"
-                    etu_exist = True
+                    etu_err = True
                     self.reset("ERR")
                     break
                 
-            if etu_exist == False:
-                ident = self.ids.surname_etu.text[0] + self.ids.name_etu.text[0] + str(random.randint(2000, 9000))
+            if etu_err == False:
+                ident = self.ids.surname_etu.text[0].upper() + self.ids.name_etu.text[0].upper() + str(random.randint(2000, 9000))
                 to_insert_stud = [ident, self.ids.surname_etu.text, self.ids.name_etu.text, int(self.ids.age_etu.text), self.ids.year_choice_etu.text, round(float(self.ids.moyenne_etu.text), 2), self.convert_pic(self.photo_path)]
                 to_insert_subject = [ident, self.ids.subject_choice_etu.text, float(self.ids.moyenne_etu.text)]
                 cursor.execute("INSERT INTO etudiants (id, surname, name, age, year, global_moy, photo) VALUES (%s, %s, %s, %s, %s, %s, %s)", to_insert_stud)
@@ -142,7 +144,8 @@ class Liste(Screen):
         self.ids.list_sort_by.text = "Trier par"
     
     def sort_list(self, search):
-        search_list = {"1A": "AND year = '1A'", "2A": "AND year = '2A'",
+        search_list = {"Reset": "",
+                        "1A": "AND year = '1A'", "2A": "AND year = '2A'",
                         "Prénoms A-Z": "ORDER BY surname", "Prénoms Z-A": "ORDER BY surname DESC",
                         "Noms A-Z": "ORDER BY name", "Noms Z-A": "ORDER BY name DESC",
                         "Age >": "ORDER BY age", "Age <": "ORDER BY age DESC",
@@ -155,8 +158,8 @@ class Liste(Screen):
     def sort_specific(self, search):
         if len(search.split(' ')) == 1:
             return "WHERE surname LIKE '" + search + "%' "
-        elif len(search.split(' ')) == 2:
-            return "WHERE surname LIKE '" + search.split(' ')[0] + "%' AND name LIKE '" + search.split(' ')[1] + "%' "
+        elif len(search.split(' ')) >= 2:
+            return "WHERE surname LIKE '" + search.split(' ')[0] + "%' AND name LIKE '" + " ".join(search.split(' ')[1:]) + "%' "
 
     def populate(self):
         db = sql.connect(**config)
@@ -166,7 +169,7 @@ class Liste(Screen):
         cursor.execute("SELECT surname, name, age, year, global_moy, photo FROM etudiants " + key_search + order_search)
         data = cursor.fetchall()
         studs = []
-        for etu in data:
+        for etu in reversed(data):
             stud_dict = {"surname": etu[0], "name": etu[1], "age": etu[2], "year": etu[3], "global_moy": etu[4], "photo": etu[5]}
             studs.append(stud_dict)
         studs_lists = [i for i in self.ids.stud_lists.children]
