@@ -187,7 +187,7 @@ WindowManager:
     name: "Login"
 
     BoxLayout:
-        cols: 6
+        cols: 1
         orientation: "vertical"
         spacing: root.height/30
 
@@ -295,7 +295,7 @@ WindowManager:
     name: "NavigProf"
 
     BoxLayout:
-        cols: 6
+        cols: 1
         orientation: "vertical"
         spacing: root.height/20
 
@@ -576,6 +576,7 @@ WindowManager:
                 pos_hint: {'center_x':.5, 'center_y':.45}
                 halign: 'center'
                 valign: 'center'
+                on_cursor: root.ids.add_etu_error.text = ''
 
             TextInput:
                 id: name_etu
@@ -587,6 +588,7 @@ WindowManager:
                 pos_hint: {'center_x':.5, 'center_y':.4}
                 halign: 'center'
                 valign: 'middle'
+                on_cursor: root.ids.add_etu_error.text = ''
 
             TextInput:
                 id: age_etu
@@ -599,6 +601,7 @@ WindowManager:
                 pos_hint: {'center_x':.5, 'center_y':.4}
                 halign: 'center'
                 valign: 'middle'
+                on_cursor: root.ids.add_etu_error.text = ''
 
         BoxLayout:
             orientation: "vertical"
@@ -625,6 +628,7 @@ WindowManager:
                 background_color: 58/255, 140/255, 153/255, .8
                 background_normal: ''
                 background_down: ''
+                on_press: root.ids.add_etu_error.text = ''
 
         TextInput:
             id: moyenne_etu
@@ -637,6 +641,7 @@ WindowManager:
             pos_hint: {'center_x':.5, 'center_y':.45}
             halign: 'center'
             valign: 'center'
+            on_cursor: root.ids.add_etu_error.text = ''
 
         BoxLayout:
             orientation: "vertical"
@@ -663,6 +668,7 @@ WindowManager:
                 background_color: 58/255, 140/255, 153/255, .8
                 background_normal: ''
                 background_down: ''
+                on_press: root.ids.add_etu_error.text = ''
         
         BoxLayout:
             orientation: "vertical"
@@ -688,6 +694,7 @@ WindowManager:
                 halign: 'center'
                 valign: 'center'
                 on_release: root.file_chooser()
+                on_press: root.ids.add_etu_error.text = ''
             
         Label:
             id: add_etu_error
