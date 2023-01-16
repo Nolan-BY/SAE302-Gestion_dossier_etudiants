@@ -13,7 +13,7 @@ import io, random
 Window.size = (500,700)
 Window.clearcolor = (237/255, 234/255, 225/255, 1)
 
-config = {'host': '127.0.0.1',
+config = {'host': '192.168.122.242',
           'database': 'bdetu',
           'user': 'etuadmin',
           'password': 'etuadmin'}
@@ -55,7 +55,7 @@ class Add(Screen):
         self.photo_path = ''
 
     def drop_file(self, window, file_path, x, y):
-        self.ids.picture_add_etu.text = str(file_path).split("\\")[-1].strip("'").replace(" ", "_")
+        self.ids.picture_add_etu.text = str(file_path).split("/")[-1].strip("'").replace(" ", "_")
         self.photo_path = str(file_path).replace("\\", "/")
     
     def file_chooser(self):
@@ -63,7 +63,7 @@ class Add(Screen):
 
     def picture_selected(self, selection):
         if len(selection) >= 1:
-            self.ids.picture_add_etu.text = selection[0].split("\\")[-1].strip("'").replace(" ", "_")
+            self.ids.picture_add_etu.text = selection[0].split("/")[-1].strip("'").replace(" ", "_")
             self.photo_path = selection[0].replace("\\", "/")
     
     def convert_pic(self, file_path):
@@ -143,7 +143,8 @@ class Liste(Screen):
         self.ids.list_sort_by.text = "Trier par"
     
     def sort_list(self, search):
-        search_list = {"1A": "AND year = '1A'", "2A": "AND year = '2A'",
+        search_list = {"Reset": "",
+                        "1A": "AND year = '1A'", "2A": "AND year = '2A'",
                         "Prénoms A-Z": "ORDER BY surname", "Prénoms Z-A": "ORDER BY surname DESC",
                         "Noms A-Z": "ORDER BY name", "Noms Z-A": "ORDER BY name DESC",
                         "Age >": "ORDER BY age", "Age <": "ORDER BY age DESC",
