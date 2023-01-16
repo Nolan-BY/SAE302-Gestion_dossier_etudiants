@@ -22,23 +22,24 @@ class Login(Screen):
         self.ids.connect_mdp.text = ''
 
     def connect(self):
-        db = sql.connect(**config)
-        cursor = db.cursor()
-        cursor.execute("SELECT identifiant, password FROM users")
-        data = cursor.fetchall()
-        users = []
-        log = False
-        for user in data:
-            users_dict = {'ident': user[0], 'pass': user[1]}
-            users.append(users_dict)
+        App.get_running_app().root.current = "NavigProf"
+        # db = sql.connect(**config)
+        # cursor = db.cursor()
+        # cursor.execute("SELECT identifiant, password FROM users")
+        # data = cursor.fetchall()
+        # users = []
+        # log = False
+        # for user in data:
+        #     users_dict = {'ident': user[0], 'pass': user[1]}
+        #     users.append(users_dict)
         
-        for user in users:
-            if self.ids.connect_login.text == user['ident'] and self.ids.connect_mdp.text == user['pass']:
-                log = True
-                App.get_running_app().root.current = "NavigProf"
+        # for user in users:
+        #     if self.ids.connect_login.text == user['ident'] and self.ids.connect_mdp.text == user['pass']:
+        #         log = True
+        #         App.get_running_app().root.current = "NavigProf"
 
-        if log == False:
-            self.ids.login_error.text = "Identifiants invalides !"
+        # if log == False:
+        #     self.ids.login_error.text = "Identifiants invalides !"
     
     def reset_err_msg(self):
         self.ids.login_error.text = ""
