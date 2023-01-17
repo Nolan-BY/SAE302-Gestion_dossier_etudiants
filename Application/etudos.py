@@ -136,7 +136,7 @@ class Add(Screen):
                     self.reset("ERR")
                     break
                 elif (int(self.ids.age_etu.text) < 17 or int(self.ids.age_etu.text) > 100):
-                    self.ids.add_etu_error.text = "L'âge' n'est pas valide !"
+                    self.ids.add_etu_error.text = "L'âge n'est pas valide !"
                     etu_err = True
                     self.reset("ERR")
                     break
